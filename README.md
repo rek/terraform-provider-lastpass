@@ -3,6 +3,23 @@
 
 <img src="https://cdn.rawgit.com/hashicorp/terraform-website/master/content/source/assets/images/logo-hashicorp.svg" width="400px">
 
+This fork refactors the original and adds support for lpass types server and ssh. Can easily be extened to support all lpass types,
+but I don't need them, so it's not done. See docs folder for full description, but briefly:
+
+```hcl
+data "lastpass_server" "myserver" {
+    id = "3863267983730403838"
+}
+
+resource "lastpass_ssh_key" "mysshkey" {
+    name = "My key"
+    pass_phrase = each.value[1]
+    public_key  = chomp( file("key.pub") )
+    private_key = chomp( file("key.pem") )
+    hostname    = "myserver"
+}
+```
+
 The Lastpass provider is used to read, manage, or destroy secrets inside Lastpass. Goodbye secret .tfvars files 👋
 
 ```hcl
