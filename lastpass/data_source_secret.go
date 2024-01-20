@@ -68,7 +68,7 @@ func DataSourceSecret() *schema.Resource {
 // DataSourceSecretRead reads resource from upstream/lastpass
 func DataSourceSecretRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	var diags diag.Diagnostics
-	secrets, err := dataSourceSecretRead(m, d.Get("id").(string) )
+	secrets, err := dataSourceSecretRead(m, d.Get("id").(string))
 
 	if err != nil {
 		return diag.FromErr(err)
@@ -91,18 +91,18 @@ func DataSourceSecretRead(ctx context.Context, d *schema.ResourceData, m interfa
 }
 
 func dataSourceSecretRead(m interface{}, id string) ([]api.Secret, error) {
-    // We should be able to retrieve a secret by its fullname, not just number
-    // if _, err := strconv.Atoi(id); err != nil {
-    //    err := errors.New("Not a valid Lastpass ID")
-    //    return []api.Secret{}, err
-    // }
-    client := m.(*api.Client)
-    secrets, err := client.Read(id)
-    if err != nil {
-        return []api.Secret{}, err
-    } else if len(secrets) > 1 {
-        var err = errors.New("got duplicate IDs")
-        return secrets, err
-    }
-    return secrets, nil
+	// We should be able to retrieve a secret by its fullname, not just number
+	// if _, err := strconv.Atoi(id); err != nil {
+	//    err := errors.New("Not a valid Lastpass ID")
+	//    return []api.Secret{}, err
+	// }
+	client := m.(*api.Client)
+	secrets, err := client.Read(id)
+	if err != nil {
+		return []api.Secret{}, err
+	} else if len(secrets) > 1 {
+		var err = errors.New("got duplicate IDs")
+		return secrets, err
+	}
+	return secrets, nil
 }

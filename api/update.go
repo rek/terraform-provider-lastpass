@@ -8,13 +8,13 @@ import (
 
 // Update is called to update secret with upstream
 func (c *Client) Update(s Secret) error {
-    template := s.getTemplate()
-    return c.update(s.ID, template)
+	template := s.getTemplate()
+	return c.update(s.ID, template)
 }
 
 // Update is called to update secret with upstream
 func (c *Client) UpdateNodeType(id string, template string) error {
-    return c.update(id, template)
+	return c.update(id, template)
 }
 
 func (c *Client) update(id string, template string) error {

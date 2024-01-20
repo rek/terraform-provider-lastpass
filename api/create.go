@@ -14,11 +14,11 @@ func (c *Client) Create(s Secret) (Secret, error) {
 	template := s.getTemplate()
 	secrets, err := c.read(s.Name)
 	if err == nil {
-	  // We find a secret by the same name - don't create it again.
-	  // Note: this deviates from default lastpass behavior which allows multiple secrets of the same name
-	  var err = errors.New("Secret " + s.Name + " exists already - try import - aborting")
-	  var secret = secrets[0]
-	  return secret, err
+		// We find a secret by the same name - don't create it again.
+		// Note: this deviates from default lastpass behavior which allows multiple secrets of the same name
+		var err = errors.New("Secret " + s.Name + " exists already - try import - aborting")
+		var secret = secrets[0]
+		return secret, err
 	}
 	cmd := exec.Command("lpass", "add", s.Name, "--non-interactive", "--sync=now")
 	return c.create(s.Name, template, cmd)
@@ -28,18 +28,18 @@ func (c *Client) Create(s Secret) (Secret, error) {
 func (c *Client) CreateNodeType(name string, template string, nodetype string) (Secret, error) {
 	secrets, err := c.read(name)
 	if err == nil {
-	  // We find a secret by the same name - don't create it again.
-	  // Note: this deviates from default lastpass behavior which allows multiple secrets of the same name
-	  var err = errors.New("Secret " + name + " exists already - try import - aborting")
-	  var secret = secrets[0]
-	  return secret, err
+		// We find a secret by the same name - don't create it again.
+		// Note: this deviates from default lastpass behavior which allows multiple secrets of the same name
+		var err = errors.New("Secret " + name + " exists already - try import - aborting")
+		var secret = secrets[0]
+		return secret, err
 	}
-	cmd := exec.Command("lpass", "add", name, "--non-interactive", "--sync=now", "--note-type=" + nodetype)
+	cmd := exec.Command("lpass", "add", name, "--non-interactive", "--sync=now", "--note-type="+nodetype)
 	return c.create(name, template, cmd)
 }
 
 func (c *Client) create(name string, template string, cmd *exec.Cmd) (Secret, error) {
-	var s Secret = Secret{ Name: name }
+	var s Secret = Secret{Name: name}
 	err := c.login()
 	if err != nil {
 		return s, err
