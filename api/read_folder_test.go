@@ -6,13 +6,13 @@ import (
 
 func TestParseUsers(t *testing.T) {
 	input := `User                     RO Admin  Hide OutEnt Accept
-One Guy <one.guy@cntxt.com>    _   _   _   x   x
-Another Nice Dude <another.dude@cntxt.com>     _   x   _   _   x
+One Guy <one.guy@email.com>    _   _   _   x   x
+Another Nice Dude <another.dude@email.com>     _   x   _   _   x
 `
 
 	expectedUsers := []User{
-		{Name: "One Guy", Email: "one.guy@cntxt.com", RO: false, Admin: false, Hide: false, OutEnt: true, Accept: true},
-		{Name: "Another Nice Dude", Email: "another.dude@cntxt.com", RO: false, Admin: true, Hide: false, OutEnt: false, Accept: true},
+		{Name: "One Guy", Email: "one.guy@email.com", RO: false, Admin: false, Hide: false, OutEnt: true, Accept: true},
+		{Name: "Another Nice Dude", Email: "another.dude@email.com", RO: false, Admin: true, Hide: false, OutEnt: false, Accept: true},
 	}
 
 	users := parseUsers(input)
