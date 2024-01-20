@@ -54,8 +54,9 @@ func (c *Client) ReadShares(id string) ([]FolderShare, error) {
 
 	var shares = parseUsers(outbuf.String())
 
+	// for quick debugging:
 	// var debugInput = `User                     RO Admin  Hide OutEnt Accept
-	// Faris Alfaris <faris.alfaris@cntxt.com>                  x   _   _   x   x
+	// Test User <some.user@email.com>                  x   _   _   x   x
 	// Another Nice Dude <another.dude@email.com>   _   x   _   _   x
 	// `
 	// 	var shares = parseUsers(debugInput)
