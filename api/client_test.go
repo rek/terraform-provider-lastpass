@@ -1,3 +1,4 @@
+//go:build integration
 // +build integration
 
 // run with go test -tags=integration

@@ -3,6 +3,25 @@
 
 <img src="https://cdn.rawgit.com/hashicorp/terraform-website/master/content/source/assets/images/logo-hashicorp.svg" width="400px">
 
+This is a fork of the most active previous [fork](https://github.com/rezroo/terraform-provider-lastpass) (see the below message from them).
+
+My fork here adds the ability to control the users which are added to shared folders.
+
+```hcl
+data "lastpass_shared_folder" "some_folder" {
+  folder = "Shared Folder Name"
+}
+
+resource "lastpass_shared_folder" "some_folder_some_user" {
+  folder    = "Shared Folder Name"
+  user      = "Some user"
+  email     = "some.user@email.com"
+  read_only = true
+}
+
+```
+
+<hr/>
 This fork refactors the original and adds support for lpass types server and ssh. Can easily be extened to support all lpass types,
 but I don't need them, so it's not done. See docs folder for full description, but briefly:
 

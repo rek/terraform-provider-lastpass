@@ -18,14 +18,18 @@ type config struct {
 func Provider() *schema.Provider {
 	return &schema.Provider{
 		ResourcesMap: map[string]*schema.Resource{
-			"lastpass_secret": ResourceSecret(),
-			"lastpass_server": ResourceServer(),
-			"lastpass_ssh_key": ResourceSshKey(),
+			// "lastpass_shared_folder": ResourceSharedFolder(),
+			"lastpass_shared_folder_share": ResourceSharedFolder(),
+			"lastpass_secret":              ResourceSecret(),
+			"lastpass_server":              ResourceServer(),
+			"lastpass_ssh_key":             ResourceSshKey(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
-			"lastpass_secret": DataSourceSecret(),
-			"lastpass_server": DataSourceServer(),
-			"lastpass_ssh_key": DataSourceSshKey(),
+			"lastpass_shared_folder":       DataSourceFolder(),
+			"lastpass_shared_folder_share": DataSourceFolderShare(),
+			"lastpass_secret":              DataSourceSecret(),
+			"lastpass_server":              DataSourceServer(),
+			"lastpass_ssh_key":             DataSourceSshKey(),
 		},
 		Schema: map[string]*schema.Schema{
 			"username": {
