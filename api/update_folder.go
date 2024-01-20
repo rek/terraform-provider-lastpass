@@ -1,7 +1,7 @@
 package api
 
 import (
-	"log"
+	// "log"
 	"bytes"
 	"errors"
 	"os/exec"
@@ -26,7 +26,6 @@ func (c *Client) UpdateFolder(folder_share FolderShare) error {
 		admin = "true"
 	}
 
-	log.Printf("[INFO] ================= 1--->" + "--read-only="+readOnly)
 	cmd := exec.Command("lpass", "share", "usermod", "--read-only="+readOnly, "--hidden="+hidden, "--admin="+admin, folder_share.Folder, folder_share.Email)
 
 	var outbuf, errbuf bytes.Buffer

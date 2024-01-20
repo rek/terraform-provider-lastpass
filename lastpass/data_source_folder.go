@@ -48,10 +48,6 @@ func DataSourceFolderRead(ctx context.Context, d *schema.ResourceData, m interfa
 	}
 
 	d.SetId(folder_name)
-	// d.SetId(data[0].Id)
-	// d.Set("id", folder_name)
-
-	// d.Set("email", data[0].Email)
 
 	return diags
 }

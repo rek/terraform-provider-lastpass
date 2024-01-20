@@ -8,15 +8,18 @@ This is a fork of the most active previous [fork](https://github.com/rezroo/terr
 My fork here adds the ability to control the users which are added to shared folders.
 
 ```hcl
+# this is less useful, but it can use used in an 'output' to see all the shares
 data "lastpass_shared_folder" "some_folder" {
   folder = "Shared Folder Name"
 }
 
-resource "lastpass_shared_folder" "some_folder_some_user" {
+# this is the main business:
+resource "lastpass_shared_folder_share" "some_folder_some_user" {
   folder    = "Shared Folder Name"
   user      = "Some user"
   email     = "some.user@email.com"
   read_only = true
+  admin     = true
 }
 
 ```

@@ -105,7 +105,7 @@ func ResourceSharedFolderRead(ctx context.Context, d *schema.ResourceData, m int
 func ResourceSharedFolderDelete(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	client := m.(*api.Client)
 	var diags diag.Diagnostics
-	err := client.DeleteFolder(d.Id(), d.Get("email").(string))
+	err := client.DeleteFolder(d.Get("folder").(string), d.Get("email").(string))
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -135,7 +135,7 @@ func ResourceSharedFolderCreate(ctx context.Context, d *schema.ResourceData, m i
 	var diags diag.Diagnostics
 
 	folder_share := api.FolderShare{
-		Id:       d.Id(),
+		// Id:       d.Id(),
 		Folder:   d.Get("folder").(string),
 		Name:     d.Get("user").(string),
 		Email:    d.Get("email").(string),
@@ -144,10 +144,14 @@ func ResourceSharedFolderCreate(ctx context.Context, d *schema.ResourceData, m i
 		Hide:     d.Get("hide").(bool),
 	}
 
-	err := client.CreateFolder(folder_share)
+	folder_share, err := client.CreateFolder(folder_share)
 	if err != nil {
 		return diag.FromErr(err)
 	}
+
+	d.SetId(d.Get("folder").(string) + "/" + d.Get("email").(string))
+	ResourceSharedFolderRead(ctx, d, m)
+
 	return diags
 }
 
@@ -155,7 +159,6 @@ func ResourceSharedFolderCreate(ctx context.Context, d *schema.ResourceData, m i
 func ResourceSharedFolderImporter(d *schema.ResourceData, m interface{}) ([]*schema.ResourceData, error) {
 	log.Printf("[INFO] Starting import")
 
-	// take 2
 	folder_name, _ := splitId(d.Id())
 
 	// // test that both of these exist
@@ -164,11 +167,6 @@ func ResourceSharedFolderImporter(d *schema.ResourceData, m interface{}) ([]*sch
 	// 	diag.FromErr(error)
 	// 	return nil, error
 	// }
-	// client := m.(*api.Client)
-	// data, err := client.ReadShares(folder_name)
-
-	// take 1
-	// data, err := dataSourceFolderRead(m, d.Id())
 
 	client := m.(*api.Client)
 	user, err := client.ReadShare(d.Id())
@@ -183,15 +181,11 @@ func ResourceSharedFolderImporter(d *schema.ResourceData, m interface{}) ([]*sch
 	}
 	// log.Printf("[INFO] Read success, total: %v", len(data))
 
-	// var user = findUser(data, email)
-
 	if user.Email == "" {
 		var err = errors.New("Failed to find record for '%s'" + d.Id())
 		diag.FromErr(err)
 		return nil, err
 	}
-
-	log.Printf("[INFO] --matched==", user.Email)
 
 	d.Set("id", d.Id())
 	d.Set("folder", folder_name)
